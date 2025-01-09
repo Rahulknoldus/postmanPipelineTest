@@ -43,6 +43,18 @@ jobs:
           name: Newman Test Report
           path: testArtifacts/newman-report.html
 
+      - name: Post Comment to PR with Report Link
+      if: github.event_name == 'pull_request'
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: Postman Test Results
+        append: true
+        message: |
+          ### Postman Test Results
+          A detailed HTML report has been generated for this PR. You can download it from the link below:
+
+          [Download Newman HTML Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifact)    
+
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
