@@ -23,7 +23,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the Postman collection folder
-COPY testPostmanCollection ./testPostmanCollection
+COPY PostmanApiTesting ./PostmanApiTesting
 
 # Expose port 3000 (if your application needs to run on this port)
 EXPOSE 3000
