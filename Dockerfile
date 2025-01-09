@@ -1,19 +1,6 @@
-# Use official Ubuntu image as a base
-FROM ubuntu:20.04
 
-# Install necessary dependencies for Node.js and Postman
-RUN apt-get update && apt-get install -y \
-    curl \
-    gnupg \
-    lsb-release \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get install -y wget unzip
-
-# Install Postman (if required for your setup)
-RUN wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz \
-    && tar -xvzf postman.tar.gz -C /opt \
-    && rm postman.tar.gz
+# Use official Node.js image as a base
+FROM node:14
 
 # Set the working directory
 WORKDIR /PostmanApiTesting
@@ -22,17 +9,11 @@ WORKDIR /PostmanApiTesting
 COPY package*.json ./
 RUN npm install
 
-# Copy the Postman collection folder
-COPY PostmanApiTesting ./PostmanApiTesting
+# Copy the rest of the application
+COPY . .
 
-# Expose port 3000 (if your application needs to run on this port)
+# Expose port 3000
 EXPOSE 3000
 
-# Optionally, you can define entry point to run Postman collection using newman (Postman CLI)
-# RUN npm install -g newman
-
-# CMD ["newman", "run", "./testPostmanCollection/your_collection.json"]  # Use if you want to run Postman collection automatically
-
-# Start the application (use if you have an app to start, otherwise remove this line)
+# Start the application
 CMD ["npm", "start"]
-
