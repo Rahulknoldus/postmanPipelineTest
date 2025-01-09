@@ -43,6 +43,7 @@ jobs:
           name: Newman Test Report
           path: testArtifacts/newman-report.html
 
+
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
