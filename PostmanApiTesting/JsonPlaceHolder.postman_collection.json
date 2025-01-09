@@ -1,0 +1,366 @@
+{
+	"info": {
+		"_postman_id": "648274cb-2bbc-44d0-813e-c38299e4437c",
+		"name": "JsonPlaceHolder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40491299"
+	},
+	"item": [
+		{
+			"name": "List of Posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post retrieved successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    let responseData = pm.response.json();",
+							"    pm.expect(responseData.id).to.eql(1);",
+							"});",
+							"pm.test(\"Check for 4xx or 5xx status codes\", function () {",
+							"    const statusCode = pm.response.status;",
+							"    if (statusCode >= 400 && statusCode < 500) {",
+							"        pm.expect(statusCode).to.be.below(500);",
+							"    }else {",
+							"        console.log(\"Request was successful with status code: \" + statusCode);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/posts/{{post_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    let responseData = pm.response.json();",
+							"    pm.environment.set(\"id\", responseData.id);",
+							"    pm.expect(responseData.id).to.eql(101);",
+							"});",
+							"pm.test(\"Check for 4xx or 5xx status codes\", function () {",
+							"    const statusCode = pm.response.status;",
+							"    if (statusCode >= 400 && statusCode < 500) {",
+							"        pm.expect(statusCode).to.be.below(500);",
+							"    }else {",
+							"        console.log(\"Request was successful with status code: \" + statusCode);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "7057db6160462f7c90dc066c7ab649094bfcdf7bcb01e873d3fb428881856df5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"{{$randomInt}}\",\n    \"title\": \"{{$randomWords}}\",\n    \"body\": \"{{$randomLoremParagraph}}\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post updated successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check for 4xx or 5xx status codes\", function () {",
+							"    const statusCode = pm.response.status;",
+							"    if (statusCode >= 400 && statusCode < 500) {",
+							"        pm.expect(statusCode).to.be.below(500);",
+							"    }else {",
+							"        console.log(\"Request was successful with status code: \" + statusCode);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"updated\",\n  \"body\": \"updated body\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts/{{post_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post deleted successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check for 4xx or 5xx status codes\", function () {",
+							"    const statusCode = pm.response.status;",
+							"    if (statusCode >= 400 && statusCode < 500) {",
+							"        pm.expect(statusCode).to.be.below(500);",
+							"    }else {",
+							"        console.log(\"Request was successful with status code: \" + statusCode);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Testing EndPoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is within acceptable range\", function () {",
+							"    var responseTime = pm.response.responseTime;",
+							"    console.log(\"Response Time: \" + responseTime + \"ms\");",
+							"    pm.expect(responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DDT_createdPosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"validate data\", function () {",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.id).to.be.a('number');",
+							"    pm.expect(responseJson.title).to.eql(pm.variables.get(\"title\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"title\", pm.iterationData.get(\"postTitle\"));",
+							"pm.environment.set(\"body\", pm.iterationData.get(\"postBody\"));",
+							"",
+							"console.log(\"Title:\", pm.variables.get(\"title\"));",
+							"console.log(\"Body:\", pm.variables.get(\"body\"));",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"{{title}}\",\n    \"body\": \"{{body}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
