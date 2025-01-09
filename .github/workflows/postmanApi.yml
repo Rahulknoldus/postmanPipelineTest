@@ -1,0 +1,41 @@
+name: Run Postman Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-newman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code
+    - uses: actions/checkout@v3
+    - name: Create dir
+      run: |
+        mkdir -p testArtifacts
+
+    # Step 2: Set up Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # Step 3: Install Newman
+    - name: Install Newman
+      run: npm install -g newman
+           npm install -g newman-reporter-htmlextra
+
+    # Step 4: Run Newman tests
+    - name: Run Postman Tests with Newman
+      run: |
+        newman run "PostmanApiTesting/JsonPlaceHolder.postman_collection.json" -e "PostmanApiTesting/TestVariable.postman_environment.json" -d "./data/PostmanAssignment.csv" -r cli,htmlextra --reporter-html-export testArtifacts/newman-report.html
+
+    # Step 5: Upload Newman report as artifact
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: Reports
+        path: testArtifacts/newman-report.html
