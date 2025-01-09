@@ -68,8 +68,8 @@ jobs:
 
       # Step 3: Build Docker Image
       - name: Build Docker image
-        run: docker build -t postmanTest/cicd-exmaples:${{ github.sha }} .
+        run: docker build -t rahulknoldus/postmandemotest:${{ github.sha }} .
 
       # Step 4: Push Docker Image
       - name: Push Docker image
-        run: docker push postmanTest/cicd-exmaples:${{ github.sha }}
+        run: docker push rahulknoldus/postmandemotest:${{ github.sha }}
